@@ -23,6 +23,7 @@ public class Request {
     @Length(max = 255, message = "Ip address too long")
     private String ipAddress;
 
+    @Column(updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
 

@@ -16,7 +16,7 @@ public class Category {
 
     @Length(max = 255, message = "Request name too long")
     @Length(min = 1, message = "Request name must contain more than 1 character")
-    private String reqName;
+    private String request;
 
     private boolean deleted;
 
@@ -36,12 +36,12 @@ public class Category {
         this.name = name;
     }
 
-    public String getReqName() {
-        return reqName;
+    public String getRequest() {
+        return request;
     }
 
-    public void setReqName(String reqName) {
-        this.reqName = reqName;
+    public void setRequest(String request) {
+        this.request = request;
     }
 
     public boolean isDeleted() {
