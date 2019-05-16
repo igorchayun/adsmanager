@@ -2,6 +2,7 @@ package testtask.adsmanager.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import testtask.adsmanager.domain.Banner;
 import testtask.adsmanager.domain.Category;
 import testtask.adsmanager.exceptions.NotFoundException;
@@ -31,8 +32,12 @@ public class CategoryService {
         return categoryFromDb != null;
     }
 
-    public List<Category> getAll() {
-        return categoryRepository.findByDeletedFalse();
+    public List<Category> getAll(String filter) {
+        if (!StringUtils.isEmpty(filter)) {
+            return categoryRepository.findByNameContainingIgnoreCaseAndDeletedFalse(filter);
+        } else {
+            return categoryRepository.findByDeletedFalse();
+        }
     }
 
     public Category create(Category category) {

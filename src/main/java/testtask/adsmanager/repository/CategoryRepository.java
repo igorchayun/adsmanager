@@ -18,5 +18,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
     Category findByNameAndIdNotAndDeletedFalse(String name, Integer id);
 
     Category findByRequestAndIdNotAndDeletedFalse(String request, Integer id);
+
+    List<Category> findByNameContainingIgnoreCaseAndDeletedFalse(String filter);
 }
 

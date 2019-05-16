@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import testtask.adsmanager.domain.Category;
 import testtask.adsmanager.service.CategoryService;
-
 import java.util.List;
 
 @RestController
@@ -18,8 +17,8 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<Category> list() {
-        return categoryService.getAll();
+    public List<Category> list(@RequestParam(required = false, defaultValue = "") String filter) {
+        return categoryService.getAll(filter);
     }
 
     @PostMapping
