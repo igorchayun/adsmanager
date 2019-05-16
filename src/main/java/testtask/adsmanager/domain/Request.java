@@ -27,6 +27,15 @@ public class Request {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
 
+    public Request() {}
+
+    public Request (Banner banner, String userAgent, String ipAddress, LocalDateTime date) {
+        this.banner = banner;
+        this.userAgent = userAgent;
+        this.ipAddress = ipAddress;
+        this.date = date;
+    }
+
     public Integer getId() {
         return id;
     }

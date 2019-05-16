@@ -9,7 +9,7 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 
     Category findByNameAndDeletedFalse(String name);
 
-    Category findByRequestAndDeletedFalse(String name);
+    Category findByRequestAndDeletedFalse(String request);
 
     List<Category> findByDeletedFalse();
 
