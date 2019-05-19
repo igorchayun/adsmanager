@@ -1,4 +1,4 @@
-package testtask.adsmanager.controller;
+package testtask.adsmanager.controller.rest;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,11 +8,11 @@ import testtask.adsmanager.service.BannerService;
 import java.util.List;
 
 @RestController
-@RequestMapping("banner")
-public class BannerController {
+@RequestMapping("/api/v1/banners")
+public class BannerRestController {
     private final BannerService bannerService;
     @Autowired
-    public BannerController(BannerService bannerService) {
+    public BannerRestController(BannerService bannerService) {
         this.bannerService = bannerService;
     }
 

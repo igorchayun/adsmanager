@@ -1,5 +1,6 @@
 package testtask.adsmanager.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -22,13 +23,25 @@ public class CategoryService {
         this.bannerRepository = bannerRepository;
     }
 
-    private boolean isNameExist (String name) {
-        Category categoryFromDb = categoryRepository.findByNameAndDeletedFalse(name);
+    public boolean isNameExist (Category category, boolean isNew) {
+        Category categoryFromDb;
+        if (isNew) {
+            categoryFromDb = categoryRepository.findByNameAndDeletedFalse(category.getName());
+        } else {
+            categoryFromDb = categoryRepository.
+                    findByNameAndIdNotAndDeletedFalse(category.getName(), category.getId());
+        }
         return categoryFromDb != null;
     }
 
-    private boolean isRequestExist (String request) {
-        Category categoryFromDb = categoryRepository.findByRequestAndDeletedFalse(request);
+    public boolean isRequestExist (Category category, boolean isNew) {
+        Category categoryFromDb;
+        if (isNew) {
+            categoryFromDb = categoryRepository.findByRequestAndDeletedFalse(category.getRequest());
+        } else {
+            categoryFromDb = categoryRepository.
+                    findByRequestAndIdNotAndDeletedFalse(category.getRequest(), category.getId());
+        }
         return categoryFromDb != null;
     }
 
@@ -41,7 +54,7 @@ public class CategoryService {
     }
 
     public Category create(Category category) {
-        if (isNameExist(category.getName()) || isRequestExist(category.getRequest())) {
+        if (isNameExist(category, true) || isRequestExist(category, true)) {
             return null;
         }
         return categoryRepository.save(category);
@@ -55,14 +68,12 @@ public class CategoryService {
         return oCategory.get();
     }
 
-    public Category update(Category category) {
-        if (categoryRepository.findByNameAndIdNotAndDeletedFalse(category.getName(), category.getId()) != null) {
+    public Category update(Category category, Category categoryFromDb) {
+        if (isNameExist(category, false) || isRequestExist(category, false)) {
             return null;
         }
-        if (categoryRepository.findByRequestAndIdNotAndDeletedFalse(category.getRequest(), category.getId()) != null) {
-            return null;
-        }
-        return categoryRepository.save(category);
+        BeanUtils.copyProperties(category, categoryFromDb, "id");
+        return categoryRepository.save(categoryFromDb);
     }
 
     public List<Banner> delete(Category category) {

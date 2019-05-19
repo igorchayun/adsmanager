@@ -1,14 +1,18 @@
 package testtask.adsmanager.controller;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import testtask.adsmanager.domain.Banner;
 import testtask.adsmanager.domain.Category;
 import testtask.adsmanager.service.CategoryService;
+import javax.validation.Valid;
 import java.util.List;
 
-@RestController
-@RequestMapping("category")
+@Controller
+@RequestMapping("/categories")
 public class CategoryController {
     private final CategoryService categoryService;
     @Autowired
@@ -17,28 +21,78 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<Category> list(@RequestParam(required = false, defaultValue = "") String filter) {
-        return categoryService.getAll(filter);
+    public String list(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
+        model.addAttribute("categories", categoryService.getAll(filter));
+        model.addAttribute("filter", filter);
+        return "categories";
+    }
+
+    @GetMapping("/new")
+    public String viewCreateForm(Category category) {
+        return "category";
     }
 
     @PostMapping
-    public Category create(@RequestBody Category category) {
-        return categoryService.create(category);
+    public String create(@Valid Category category, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "category";
+        }
+        if (categoryService.isNameExist(category, true)) {
+            model.addAttribute(
+                    "nameError",
+                    "Category with name '" + category.getName() + "' is already exist"
+            );
+            return "category";
+        }
+        if (categoryService.isRequestExist(category, true)) {
+            model.addAttribute(
+                    "requestError",
+                    "Category with request '" + category.getRequest() + "' is already exist"
+            );
+            return "category";
+        }
+        categoryService.create(category);
+        return "redirect:/categories";
     }
 
     @GetMapping("{id}")
-    public Category getOne(@PathVariable Integer id) {
-        return categoryService.getOne(id);
+    public String viewEditForm(@PathVariable("id") Category category, Model model) {
+        model.addAttribute("category", category);
+        return "category";
     }
 
-    @PutMapping("{id}")
-    public Category update(@PathVariable("id") Category categoryFromDb, @RequestBody Category category) {
-        BeanUtils.copyProperties(category, categoryFromDb, "id");
-        return categoryService.update(categoryFromDb);
+    @PostMapping("{id}")
+    public String update(@PathVariable("id") Category categoryFromDb, @Valid Category category, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "category";
+        }
+        if (categoryService.isNameExist(category, false)) {
+            model.addAttribute(
+                    "nameError",
+                    "Category with name '" + category.getName() + "' is already exist"
+            );
+            return "category";
+        }
+        if (categoryService.isRequestExist(category, false)) {
+            model.addAttribute(
+                    "requestError",
+                    "Category with request '" + category.getRequest() + "' is already exist"
+            );
+            return "category";
+        }
+        categoryService.update(category, categoryFromDb);
+        return "redirect:/categories";
     }
 
-    @DeleteMapping("{id}")
-    public void delete(@PathVariable("id") Category category) {
-        categoryService.delete(category);
+    @PostMapping("/{id}/delete")
+    public String delete(@PathVariable("id") Category category, Model model) {
+        List<Banner> banners = categoryService.delete(category);
+        if (banners != null) {
+            model.addAttribute("category", category);
+            model.addAttribute("banners", banners);
+            return "associatedBanners";
+        } else {
+            return "redirect:/categories";
+        }
     }
 }

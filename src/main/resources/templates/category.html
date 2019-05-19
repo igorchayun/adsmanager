@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Ads manager - Category</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<form action="#" th:action="@{/categories/{path}(path=${category.id})}" th:object="${category}" method="post">
+    <table>
+        <tr>
+            <td th:if="*{id}" th:text="${category.name} + ' ID: ' + ${category.id}">ID</td>
+        </tr>
+        <tr>
+            <td>Name:</td>
+            <td><label><input type="text" th:value="*{name}" th:field="*{name}" /></label></td>
+        </tr>
+        <tr>
+            <td>Request ID:</td>
+            <td><label><input type="text" th:value="*{request}" th:field="*{request}" /></label></td>
+        </tr>
+        <tr>
+            <td><button type="submit">Save</button></td>
+        </tr>
+    </table>
+</form>
+<div th:if="${category.id}">
+    <form action="#" th:action="@{'/categories/' + ${category.id} + '/delete'}" th:object="${category}" method="post">
+        <button type="submit">Delete</button>
+    </form>
+</div>
+<div th:if="${#fields.hasErrors('${category.name}')}" th:errors="${category.name}"></div>
+<div th:if="${#fields.hasErrors('${category.request}')}" th:errors="${category.request}"></div>
+<div th:if="${nameError}" th:text="*{nameError}"></div>
+<div th:if="${requestError}" th:text="*{requestError}"></div>
+</body>
+</html>

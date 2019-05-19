@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Ads manager - Category - Associated banners</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:text="'You wanted to delete a category name: ' + ${category.name}"></div>
+<div th:if="${banners}">
+    <h4>Not possible delete a category that has associated with the following banners:</h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="banner : ${banners}">
+            <td th:text="${banner.id}">Id</td>
+            <td th:text="${banner.name}">Name</td>
+            <td><a th:href="@{/banners/{path}(path=${banner.id})}">edit</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<p><a th:href="@{/categories/{path}(path=${category.id})}">Back to Category</a></p>
+<p><a href="/categories">To all Categories</a></p>
+</body>
+</html>
