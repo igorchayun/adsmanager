@@ -57,12 +57,17 @@ public class CategoryController {
 
     @GetMapping("{id}")
     public String viewEditForm(@PathVariable("id") Category category, Model model) {
-        model.addAttribute("category", category);
+        model.addAttribute("category", categoryService.getOne(category.getId()));
         return "category";
     }
 
     @PostMapping("{id}")
-    public String update(@PathVariable("id") Category categoryFromDb, @Valid Category category, BindingResult bindingResult, Model model) {
+    public String update(
+            @PathVariable("id") Category categoryFromDb,
+            @Valid Category category,
+            BindingResult bindingResult,
+            Model model
+    ) {
         if (bindingResult.hasErrors()) {
             return "category";
         }

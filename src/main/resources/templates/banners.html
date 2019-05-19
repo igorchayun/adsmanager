@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Ads manager - banners list</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h3>Banners:</h3>
+<form method="get">
+    <input type="text" name="filter" placeholder="Enter banner name" th:value="${filter}">
+    <button type="submit">search</button>
+</form>
+<table>
+    <tr th:each="banner : ${banners}">
+        <td th:text="${banner.name}">Name</td>
+        <td><a th:href="@{'/banners/' + ${banner.id}}">edit</a></td>
+    </tr>
+</table>
+<a href="/banners/new">Create new Banner</a><br>
+</body>
+</html>

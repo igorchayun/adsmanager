@@ -2,8 +2,10 @@ package testtask.adsmanager.domain;
 
 import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Entity
 @Table
@@ -16,12 +18,15 @@ public class Banner {
     @Length(min = 1, message = "Banner name must contain more than 1 character")
     private String name;
 
-    @NotNull
-    @Min(0)
-    private Double price;
+    @NotNull(message = "Price must be set")
+    @Digits(integer=6, fraction=2, message="Maximum 6 of integral digits " +
+            "and maximum 2 of fractional digits accepted for this number")
+    @DecimalMin(value = "0.01", message = "Price must be greater than 0.01")
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @NotNull(message = "Category must be set")
     private Category category;
 
     @Length(max = 21844, message = "Banner content too long")
@@ -46,11 +51,11 @@ public class Banner {
         this.name = name;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

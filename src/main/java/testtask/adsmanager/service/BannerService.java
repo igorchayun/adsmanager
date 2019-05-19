@@ -1,5 +1,6 @@
 package testtask.adsmanager.service;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -17,6 +18,16 @@ public class BannerService {
         this.bannerRepository = bannerRepository;
     }
 
+    public boolean isNameExist(Banner banner, boolean isNew) {
+        Banner bannerFromDb;
+        if (isNew) {
+            bannerFromDb = bannerRepository.findByNameAndDeletedFalse(banner.getName());
+        } else {
+            bannerFromDb = bannerRepository.findByNameAndIdNotAndDeletedFalse(banner.getName(), banner.getId());
+        }
+        return bannerFromDb != null;
+    }
+
     public List<Banner> getAll(String filter) {
         if (!StringUtils.isEmpty(filter)) {
             return bannerRepository.findByNameContainingIgnoreCaseAndDeletedFalse(filter);
@@ -26,7 +37,7 @@ public class BannerService {
     }
 
     public Banner create(Banner banner) {
-        if (bannerRepository.findByNameAndDeletedFalse(banner.getName()) != null) {
+        if (isNameExist(banner, true)) {
             return null;
         }
         return bannerRepository.save(banner);
@@ -40,11 +51,12 @@ public class BannerService {
         return oBanner.get();
     }
 
-    public Banner update(Banner banner) {
-        if (bannerRepository.findByNameAndIdNotAndDeletedFalse(banner.getName(), banner.getId()) != null) {
+    public Banner update(Banner banner, Banner bannerFromDb) {
+        if (isNameExist(banner, false)) {
             return null;
         }
-        return bannerRepository.save(banner);
+        BeanUtils.copyProperties(banner, bannerFromDb, "id");
+        return bannerRepository.save(bannerFromDb);
     }
 
     public void delete(Banner banner) {

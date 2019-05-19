@@ -1,6 +1,5 @@
 package testtask.adsmanager.controller.rest;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import testtask.adsmanager.domain.Banner;
@@ -33,8 +32,7 @@ public class BannerRestController {
 
     @PutMapping("{id}")
     public Banner update(@PathVariable("id") Banner bannerFromDb, @RequestBody Banner banner) {
-        BeanUtils.copyProperties(banner, bannerFromDb, "id");
-        return bannerService.update(bannerFromDb);
+        return bannerService.update(banner, bannerFromDb);
     }
 
     @DeleteMapping("{id}")

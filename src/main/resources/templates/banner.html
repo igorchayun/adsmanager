@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Ads manager - Banner</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<div th:if="${banner.id}" th:text="${banner.name} + ' ID: ' + ${banner.id}"></div>
+<div th:unless="${banner.id}">Create new banner</div>
+<form action="#" th:action="@{/banners/{path}(path=${banner.id})}" th:object="${banner}" method="post">
+    <table>
+        <tr>
+            <td>Name</td>
+            <td><label><input type="text" th:value="*{name}" th:field="*{name}" /></label></td>
+        </tr>
+        <tr>
+            <td>Price</td>
+            <td><label><input type="number" step="0.01" th:value="*{price}" th:field="*{price}" /></label></td>
+        </tr>
+        <tr>
+            <td>Category</td>
+            <td>
+                <label>
+                    <select th:field="*{category}">
+                        <option th:each="category : ${allCategories}"
+                                th:value="${category.id}"
+                                th:text="${#conversions.convert(category.name,'String')}">Category</option>
+                    </select>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td>Text</td>
+            <td>
+                <label>
+                    <textarea name="content" th:value="*{content}" th:field="*{content}">Text</textarea>
+                </label>
+            </td>
+        </tr>
+        <tr>
+            <td><button type="submit">Save</button></td>
+        </tr>
+    </table>
+</form>
+<div th:if="${banner.id}">
+    <form action="#" th:action="@{'/banners/' + ${banner.id} + '/delete'}" th:object="${banner}" method="post">
+        <button type="submit">Delete</button>
+    </form>
+</div>
+<div th:if="${#fields.hasErrors('${banner.name}')}" th:errors="${banner.name}"></div>
+<div th:if="${#fields.hasErrors('${banner.price}')}" th:errors="${banner.price}"></div>
+<div th:if="${#fields.hasErrors('${banner.category}')}" th:errors="${banner.category}"></div>
+<div th:if="${#fields.hasErrors('${banner.content}')}" th:errors="${banner.content}"></div>
+<div th:if="${nameError}" th:text="*{nameError}"></div>
+</body>
+</html>
