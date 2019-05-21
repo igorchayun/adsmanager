@@ -28,12 +28,16 @@ public class CategoryController {
     }
 
     @GetMapping("/new")
-    public String viewCreateForm(Category category) {
+    public String viewCreateForm(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
+        model.addAttribute("categories", categoryService.getAll(filter));
+        model.addAttribute("filter", filter);
+        model.addAttribute("category", new Category());
         return "category";
     }
 
     @PostMapping
     public String create(@Valid Category category, BindingResult bindingResult, Model model) {
+        model.addAttribute("categories", categoryService.getAll(null));
         if (bindingResult.hasErrors()) {
             return "category";
         }
@@ -56,7 +60,13 @@ public class CategoryController {
     }
 
     @GetMapping("{id}")
-    public String viewEditForm(@PathVariable("id") Category category, Model model) {
+    public String viewEditForm(
+            @PathVariable("id") Category category,
+            @RequestParam(required = false, defaultValue = "") String filter,
+            Model model
+    ) {
+        model.addAttribute("categories", categoryService.getAll(filter));
+        model.addAttribute("filter", filter);
         model.addAttribute("category", categoryService.getOne(category.getId()));
         return "category";
     }
@@ -68,6 +78,7 @@ public class CategoryController {
             BindingResult bindingResult,
             Model model
     ) {
+        model.addAttribute("categories", categoryService.getAll(null));
         if (bindingResult.hasErrors()) {
             return "category";
         }
@@ -93,6 +104,7 @@ public class CategoryController {
     public String delete(@PathVariable("id") Category category, Model model) {
         List<Banner> banners = categoryService.delete(category);
         if (banners != null) {
+            model.addAttribute("categories", categoryService.getAll(null));
             model.addAttribute("category", category);
             model.addAttribute("banners", banners);
             return "associatedBanners";

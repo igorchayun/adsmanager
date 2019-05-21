@@ -3,28 +3,45 @@
 <head>
     <title>Ads manager - Category - Associated banners</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-<div th:text="'You wanted to delete a category name: ' + ${category.name}"></div>
-<div th:if="${banners}">
-    <h4>Not possible delete a category that has associated with the following banners:</h4>
-    <table>
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="banner : ${banners}">
-            <td th:text="${banner.id}">Id</td>
-            <td th:text="${banner.name}">Name</td>
-            <td><a th:href="@{/banners/{path}(path=${banner.id})}">edit</a></td>
-        </tr>
-        </tbody>
-    </table>
+<div th:include="categories :: navcategory" ></div>
+<div class="container-fluid">
+    <div class="row flex-xl-nowrap">
+        <div th:include="categories :: categorysidebar"></div>
+        <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content" role="main">
+            <div th:fragment="content">
+                <div th:text="'You wanted to delete a category name: ' + ${category.name}"></div>
+                <div th:if="${banners}">
+                    <h6>Not possible delete a category that has associated with the following banners:</h6>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="banner : ${banners}">
+                            <td th:text="${banner.id}">Id</td>
+                            <td><a th:href="@{/banners/{path}(path=${banner.id})}"><div th:text="${banner.name}"></div></a></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <p> </p>
+                    <p><a th:href="@{/categories/{path}(path=${category.id})}">Back to Category</a></p>
+                </div>
+            </div>
+        </main>
+    </div>
 </div>
-<p><a th:href="@{/categories/{path}(path=${category.id})}">Back to Category</a></p>
-<p><a href="/categories">To all Categories</a></p>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>

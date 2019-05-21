@@ -29,14 +29,18 @@ public class BannerController {
     }
 
     @GetMapping("/new")
-    public String viewCreateForm(Banner banner, Model model) {
+    public String viewCreateForm(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
         model.addAttribute("allCategories", categoryService.getAll(null));
+        model.addAttribute("banner", new Banner());
+        model.addAttribute("banners", bannerService.getAll(filter));
+        model.addAttribute("filter", filter);
         return "banner";
     }
 
     @PostMapping
     public String create(@Valid Banner banner, BindingResult bindingResult, Model model) {
         model.addAttribute("allCategories", categoryService.getAll(null));
+        model.addAttribute("banners", bannerService.getAll(null));
         if (bindingResult.hasErrors()) {
             return "banner";
         }
@@ -52,9 +56,15 @@ public class BannerController {
     }
 
     @GetMapping("{id}")
-    public String viewEditForm(@PathVariable("id") Banner banner, Model model) {
+    public String viewEditForm(
+            @PathVariable("id") Banner banner,
+            @RequestParam(required = false, defaultValue = "") String filter,
+            Model model
+    ) {
         model.addAttribute("allCategories", categoryService.getAll(null));
         model.addAttribute("banner", bannerService.getOne(banner.getId()));
+        model.addAttribute("banners", bannerService.getAll(filter));
+        model.addAttribute("filter", filter);
         return "banner";
     }
 
@@ -66,6 +76,7 @@ public class BannerController {
             Model model
     ) {
         model.addAttribute("allCategories", categoryService.getAll(null));
+        model.addAttribute("banners", bannerService.getAll(null));
         if (bindingResult.hasErrors()) {
             return "banner";
         }
@@ -83,6 +94,6 @@ public class BannerController {
     @PostMapping("/{id}/delete")
     public String delete(@PathVariable("id") Banner banner) {
         bannerService.delete(banner);
-        return "redirect:/categories";
+        return "redirect:/banners";
     }
 }

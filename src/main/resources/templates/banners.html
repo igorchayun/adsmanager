@@ -3,19 +3,52 @@
 <head>
     <title>Ads manager - banners list</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
-<h3>Banners:</h3>
-<form method="get">
-    <input type="text" name="filter" placeholder="Enter banner name" th:value="${filter}">
-    <button type="submit">search</button>
-</form>
-<table>
-    <tr th:each="banner : ${banners}">
-        <td th:text="${banner.name}">Name</td>
-        <td><a th:href="@{'/banners/' + ${banner.id}}">edit</a></td>
-    </tr>
-</table>
-<a href="/banners/new">Create new Banner</a><br>
+<div th:fragment="navbanner">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+            <ul class="navbar-nav bd-navbar-nav flex-row">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/banners" title="Banners">Banners</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="/categories" title="Categories">Categories</a>
+                </li>
+            </ul>
+    </nav>
+</div>
+<div class="container-fluid">
+    <div class="row flex-xl-nowrap">
+        <div th:fragment="bannersidebar">
+            <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
+                <div>Banners:</div>
+                <form class="bd-search d-flex align-items-center">
+                    <input type="search" name="filter" placeholder="Enter banner name" th:value="${filter}">
+                    <button type="submit" hidden="hidden" >search</button>
+                </form>
+                <div class="bd-toc-item " >
+                    <ul class="nav bd-sidenav" th:each="banner : ${banners}">
+                        <li class="">
+                            <a th:href="@{'/banners/' + ${banner.id}}" >
+                                <div th:text="${banner.name}"></div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bd-toc-item " >
+                    <a class="bd-toc-link" href="/banners/new">Create new Banner</a><br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
