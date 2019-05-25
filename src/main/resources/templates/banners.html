@@ -10,12 +10,12 @@
 <body>
 <div th:fragment="navbanner">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-            <ul class="navbar-nav bd-navbar-nav flex-row">
-                <li class="nav-item">
-                    <a class="nav-link active" href="/banners" title="Banners">Banners</a>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/banners" title="Banners">Banners</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link " href="/categories" title="Categories">Categories</a>
+                    <a class="nav-link" href="/categories" title="Categories">Categories</a>
                 </li>
             </ul>
     </nav>
@@ -23,25 +23,26 @@
 <div class="container-fluid">
     <div class="row flex-xl-nowrap">
         <div th:fragment="bannersidebar">
-            <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
-                <div>Banners:</div>
+            <nav class="col-md-2 bg-light sidebar">
+                <h4 class="my-3">Banners:</h4>
                 <form class="bd-search d-flex align-items-center">
                     <input type="search" name="filter" placeholder="Enter banner name" th:value="${filter}">
                     <button type="submit" hidden="hidden" >search</button>
                 </form>
-                <div class="bd-toc-item " >
-                    <ul class="nav bd-sidenav" th:each="banner : ${banners}">
-                        <li class="">
-                            <a th:href="@{'/banners/' + ${banner.id}}" >
-                                <div th:text="${banner.name}"></div>
+                    <ul class="nav flex-column" th:each="ban : ${banners}">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{'/banners/' + ${ban.id}}" >
+                                <div th:text="${ban.name}" ></div>
                             </a>
                         </li>
                     </ul>
-                </div>
-                <div class="bd-toc-item " >
-                    <a class="bd-toc-link" href="/banners/new">Create new Banner</a><br>
-                </div>
-            </div>
+                <h1> </h1>
+                <ul class="nav flex-column nav-pills">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/banners/new" style="white-space: nowrap;">Create new Banner</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>

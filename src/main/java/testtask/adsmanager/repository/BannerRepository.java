@@ -22,14 +22,14 @@ public interface BannerRepository extends JpaRepository<Banner, Integer> {
 
     Banner findByNameAndIdNotAndDeletedFalse(String name, Integer id);
 
-    @Query("select b from Banner b " +
-            "where b.category = :category and b.deleted = false " +
-            "order by b.price desc")
+    @Query(value = "select * from Banner " +
+            "where category_id = :category and deleted = false " +
+            "order by price desc limit 1", nativeQuery = true)
     List<Banner> findToFirstShow(@Param("category") Category category);
 
-    @Query("select b from Banner b " +
-            "where b.id not in :bannerIds and b.category = :category and b.deleted = false " +
-            "order by b.price desc")
+    @Query(value = "select * from Banner " +
+            "where id not in :bannerIds and category_id = :category and deleted = false " +
+            "order by price desc limit 1", nativeQuery = true)
     List<Banner> findToShow(@Param("bannerIds") List<Integer> bannerIds,
-                      @Param("category") Category category);
+                            @Param("category") Category category);
 }

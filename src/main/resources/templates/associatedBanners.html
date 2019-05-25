@@ -14,14 +14,15 @@
         <div th:include="categories :: categorysidebar"></div>
         <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content" role="main">
             <div th:fragment="content">
-                <div th:text="'You wanted to delete a category name: ' + ${category.name}"></div>
+                <div class="alert alert-warning" role="alert"
+                     th:text="'You tried to delete a category: ' + ${category.name}"></div>
                 <div th:if="${banners}">
-                    <h6>Not possible delete a category that has associated with the following banners:</h6>
-                    <table>
+                    <h5>Not possible delete a category that has associated with the following banners:</h5>
+                    <table class="table">
                         <thead>
                         <tr>
-                            <th>Id</th>
-                            <th>Name</th>
+                            <th scope="col">Id</th>
+                            <th scope="col">Name</th>
                         </tr>
                         </thead>
                         <tbody>

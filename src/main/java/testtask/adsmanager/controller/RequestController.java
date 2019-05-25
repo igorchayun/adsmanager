@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("bid")
+@RequestMapping("/bid")
 public class RequestController {
     private final RequestRepository requestRepository;
     private final CategoryRepository categoryRepository;

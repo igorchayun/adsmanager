@@ -10,7 +10,7 @@
 <body>
 <div th:fragment="navcategory">
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <ul class="navbar-nav bd-navbar-nav flex-row">
+        <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a class="nav-link " href="/banners" title="Banners">Banners</a>
             </li>
@@ -23,24 +23,26 @@
 <div class="container-fluid">
     <div class="row flex-xl-nowrap">
         <div th:fragment="categorysidebar">
-            <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
-                <div>Categories:</div>
+            <div class="col-md-2 bg-light sidebar">
+                <h4 class="my-3">Categories:</h4>
                 <form class="bd-search d-flex align-items-center" >
                     <input type="search" name="filter" placeholder="Enter category name" th:value="${filter}">
                     <button type="submit" hidden="hidden" >search</button>
                 </form>
-                <div class="bd-toc-item " >
-                    <ul class="nav bd-sidenav" th:each="category : ${categories}">
-                        <li class="">
-                            <a th:href="@{'/categories/' + ${category.id}}">
-                                <div th:text="${category.name}"></div>
+
+                    <ul class="nav flex-column" th:each="categ : ${categories}">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{'/categories/' + ${categ.id}}">
+                                <div th:text="${categ.name}"></div>
                             </a>
                         </li>
                     </ul>
-                </div>
-                <div class="bd-toc-item " >
-                    <a class="bd-toc-link" href="/categories/new">Create new Category</a><br>
-                </div>
+                <h1> </h1>
+                <ul class="nav flex-column nav-pills">
+                    <li class="nav-item">
+                    <a class="nav-link active" href="/categories/new" style="white-space: nowrap;">Create new Category</a><br>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>
