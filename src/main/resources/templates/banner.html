@@ -14,7 +14,8 @@
         <nav class="col-md-2 bg-light sidebar">
             <h4 class="my-3">Banners:</h4>
             <form class="bd-search d-flex align-items-center mb-3">
-                <input type="search" name="filter" placeholder="Enter banner name" th:value="${filter}">
+                <input type="search" class="form-control" name="filter"
+                       placeholder="Enter banner name" th:value="${filter}">
                 <button type="submit" hidden="hidden" >search</button>
             </form>
             <ul class="nav flex-column nav-pills" th:each="ban : ${banners}">

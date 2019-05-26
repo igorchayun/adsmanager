@@ -11,42 +11,39 @@
 <div th:include="categories :: navcategory" ></div>
 <div class="container-fluid">
     <div class="row flex-xl-nowrap">
-        <div th:include="categories :: categorysidebar"></div>
-        <main class="col-12 col-md-9 col-xl-8 py-md-3 pl-md-5 bd-content" role="main">
-            <div th:fragment="content">
-                <div class="alert alert-warning" role="alert"
-                     th:text="'You tried to delete a category: ' + ${category.name}"></div>
-                <div th:if="${banners}">
-                    <h5>Not possible delete a category that has associated with the following banners:</h5>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">Id</th>
-                            <th scope="col">Name</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr th:each="banner : ${banners}">
-                            <td th:text="${banner.id}">Id</td>
-                            <td>
-                                <a th:href="@{/banners/{path}(path=${banner.id})}">
-                                    <div th:text="${banner.name}"></div>
-                                </a>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                    <p> </p>
-                    <p><a th:href="@{/categories/{path}(path=${category.id})}">Back to Category</a></p>
-                </div>
+        <div th:replace="categories :: categorysidebar"> </div>
+        <div class="container">
+            <div class="alert alert-warning my-3" role="alert"
+                 th:text="'You tried to delete a category: ' + ${category.name}"></div>
+            <div th:if="${banners}">
+                <h5>Not possible delete a category that has associated with the following banners:</h5>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="banner : ${banners}">
+                        <td th:text="${banner.id}">Id</td>
+                        <td>
+                            <a th:href="@{/banners/{path}(path=${banner.id})}">
+                                <div th:text="${banner.name}"></div>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p> </p>
+                <p><a th:href="@{/categories/{path}(path=${category.id})}">Back to Category</a></p>
             </div>
-        </main>
+        </div>
     </div>
-</div>
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>
 </html>
