@@ -2,7 +2,6 @@ package testtask.adsmanager.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.validator.constraints.Length;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 

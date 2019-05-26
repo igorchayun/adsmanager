@@ -23,27 +23,28 @@
 <div class="container-fluid">
     <div class="row flex-xl-nowrap">
         <div th:fragment="categorysidebar">
-            <div class="col-md-2 bg-light sidebar">
+            <nav class="col-md-2 bg-light sidebar">
                 <h4 class="my-3">Categories:</h4>
-                <form class="bd-search d-flex align-items-center" >
+                <form class="bd-search d-flex align-items-center mb-3" >
                     <input type="search" name="filter" placeholder="Enter category name" th:value="${filter}">
                     <button type="submit" hidden="hidden" >search</button>
                 </form>
-
-                    <ul class="nav flex-column" th:each="categ : ${categories}">
-                        <li class="nav-item">
-                            <a class="nav-link" th:href="@{'/categories/' + ${categ.id}}">
-                                <div th:text="${categ.name}"></div>
-                            </a>
-                        </li>
-                    </ul>
+                <ul class="nav flex-column" th:each="categ : ${categories}">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{'/categories/' + ${categ.id}}">
+                            <div th:text="${categ.name}"></div>
+                        </a>
+                    </li>
+                </ul>
                 <h1> </h1>
                 <ul class="nav flex-column nav-pills">
                     <li class="nav-item">
-                    <a class="nav-link active" href="/categories/new" style="white-space: nowrap;">Create new Category</a><br>
+                        <a class="nav-link active" href="/categories/new" style="white-space: nowrap;">
+                            Create new Category
+                        </a><br>
                     </li>
                 </ul>
-            </div>
+            </nav>
         </div>
     </div>
 </div>

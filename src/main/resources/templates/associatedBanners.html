@@ -28,7 +28,11 @@
                         <tbody>
                         <tr th:each="banner : ${banners}">
                             <td th:text="${banner.id}">Id</td>
-                            <td><a th:href="@{/banners/{path}(path=${banner.id})}"><div th:text="${banner.name}"></div></a></td>
+                            <td>
+                                <a th:href="@{/banners/{path}(path=${banner.id})}">
+                                    <div th:text="${banner.name}"></div>
+                                </a>
+                            </td>
                         </tr>
                         </tbody>
                     </table>

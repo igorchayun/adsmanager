@@ -11,7 +11,29 @@
 <div th:include="banners :: navbanner" ></div>
 <div class="container-fluid">
     <div class="row flex-xl-nowrap">
-        <div th:include="banners :: bannersidebar"></div>
+        <nav class="col-md-2 bg-light sidebar">
+            <h4 class="my-3">Banners:</h4>
+            <form class="bd-search d-flex align-items-center mb-3">
+                <input type="search" name="filter" placeholder="Enter banner name" th:value="${filter}">
+                <button type="submit" hidden="hidden" >search</button>
+            </form>
+            <ul class="nav flex-column nav-pills" th:each="ban : ${banners}">
+                <li class="nav-item">
+                    <a th:if="${banner.id == ban.id}" class="nav-link active" th:href="@{'/banners/' + ${ban.id}}" >
+                        <div th:text="${ban.name}" ></div>
+                    </a>
+                    <a th:unless="${banner.id == ban.id}" class="nav-link" th:href="@{'/banners/' + ${ban.id}}" >
+                        <div th:text="${ban.name}" ></div>
+                    </a>
+                </li>
+            </ul>
+            <h1> </h1>
+            <ul class="nav flex-column nav-pills">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/banners/new" style="white-space: nowrap;">Create new Banner</a>
+                </li>
+            </ul>
+        </nav>
         <div class="container">
             <div th:fragment="content">
                 <h4 class="my-3" th:if="${banner.id}" th:text="${banner.name} + ' ID: ' + ${banner.id}">
@@ -28,15 +50,15 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Price</label>
                         <div class="col-sm-8">
-                            <input type="number" class="form-control" step="0.01" th:value="*{price}" th:field="*{price}" />
+                            <input type="number" class="form-control" step="0.01"
+                                   th:value="*{price}" th:field="*{price}" />
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Category</label>
                         <div class="col-sm-8">
                             <select class="form-control" th:field="*{category}">
-                                <option th:each="category : ${allCategories}"
-                                        th:value="${category.id}"
+                                <option th:each="category : ${allCategories}" th:value="${category.id}"
                                         th:text="${#conversions.convert(category.name,'String')}">Category</option>
                             </select>
                         </div>
@@ -44,7 +66,8 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Text</label>
                         <div class="col-sm-8">
-                            <textarea name="content" class="form-control" th:value="*{content}" th:field="*{content}" />
+                            <textarea name="content" class="form-control" th:value="*{content}" th:field="*{content}">
+                            </textarea>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -66,9 +89,9 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                 </form>
-
                 <div class="mt-3" th:if="${banner.id}">
-                    <form action="#" th:action="@{'/banners/' + ${banner.id} + '/delete'}" th:object="${banner}" method="post">
+                    <form action="#" th:action="@{'/banners/' + ${banner.id} + '/delete'}"
+                          th:object="${banner}" method="post">
                         <button type="submit" class="btn btn-danger">Delete</button>
                     </form>
                 </div>
